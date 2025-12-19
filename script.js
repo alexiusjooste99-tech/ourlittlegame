@@ -1,28 +1,51 @@
-// 🔥 Firebase config (PASTE YOUR OWN HERE)
+/***********************
+ * FIREBASE SETUP
+ ***********************/
+
+// 🔴 PASTE YOUR OWN FIREBASE CONFIG HERE
 const firebaseConfig = {
-    apiKey: "YOUR_KEY",
-    authDomain: "YOUR_PROJECT.firebaseapp.com",
-    databaseURL: "https://YOUR_PROJECT.firebaseio.com",
-    projectId: "YOUR_PROJECT",
-    storageBucket: "YOUR_PROJECT.appspot.com",
-    messagingSenderId: "XXXX",
-    appId: "XXXX"
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+    databaseURL: "https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_PROJECT_ID.appspot.com",
+    messagingSenderId: "YOUR_SENDER_ID",
+    appId: "YOUR_APP_ID"
 };
 
-// Init Firebase
-firebase.initializeApp(firebaseConfig);
-const database = firebase.database();
+// Initialize Firebase (prevent double init on refresh)
+if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+}
 
-// Reference to game state
+// Database reference
+const database = firebase.database();
 const gameRef = database.ref("game");
 
-// Default hearts
+/***********************
+ * GAME STATE
+ ***********************/
 const maxHearts = 3;
+let purpleHearts = maxHearts;
+let blueHearts = maxHearts;
 
-// Listen for changes (REAL-TIME SYNC)
+/***********************
+ * INITIALIZE GAME (ONLY IF EMPTY)
+ ***********************/
+gameRef.once("value").then((snapshot) => {
+    if (!snapshot.exists()) {
+        gameRef.set({
+            purpleHearts: maxHearts,
+            blueHearts: maxHearts
+        });
+    }
+});
+
+/***********************
+ * REAL-TIME LISTENER
+ ***********************/
 gameRef.on("value", (snapshot) => {
     const data = snapshot.val();
-
     if (!data) return;
 
     purpleHearts = data.purpleHearts;
@@ -30,12 +53,17 @@ gameRef.on("value", (snapshot) => {
 
     drawHearts();
 
+    const resetBtn = document.getElementById("resetBtn");
     if (purpleHearts === 0 || blueHearts === 0) {
-        document.getElementById("resetBtn").style.display = "block";
+        resetBtn.style.display = "block";
+    } else {
+        resetBtn.style.display = "none";
     }
 });
 
-// Draw hearts
+/***********************
+ * UI FUNCTIONS
+ ***********************/
 function drawHearts() {
     document.getElementById("purple-hearts").innerHTML =
         "❤️".repeat(purpleHearts);
@@ -44,12 +72,12 @@ function drawHearts() {
         "❤️".repeat(blueHearts);
 }
 
-// Lose heart
+/***********************
+ * GAME ACTIONS
+ ***********************/
 function loseHeart(player) {
     gameRef.transaction((game) => {
-        if (!game) {
-            return { purpleHearts: maxHearts, blueHearts: maxHearts };
-        }
+        if (!game) return game;
 
         if (player === "purple" && game.purpleHearts > 0) {
             game.purpleHearts--;
@@ -63,12 +91,9 @@ function loseHeart(player) {
     });
 }
 
-// Reset game
 function resetGame() {
     gameRef.set({
         purpleHearts: maxHearts,
         blueHearts: maxHearts
     });
-
-    document.getElementById("resetBtn").style.display = "none";
 }
