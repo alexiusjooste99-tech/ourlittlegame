@@ -1,19 +1,41 @@
+// 🔥 Firebase config (PASTE YOUR OWN HERE)
+const firebaseConfig = {
+    apiKey: "YOUR_KEY",
+    authDomain: "YOUR_PROJECT.firebaseapp.com",
+    databaseURL: "https://YOUR_PROJECT.firebaseio.com",
+    projectId: "YOUR_PROJECT",
+    storageBucket: "YOUR_PROJECT.appspot.com",
+    messagingSenderId: "XXXX",
+    appId: "XXXX"
+};
+
+// Init Firebase
+firebase.initializeApp(firebaseConfig);
+const database = firebase.database();
+
+// Reference to game state
+const gameRef = database.ref("game");
+
+// Default hearts
 const maxHearts = 3;
 
-// Load saved hearts or default to 3
-let purpleHearts = localStorage.getItem("purpleHearts")
-    ? Number(localStorage.getItem("purpleHearts"))
-    : maxHearts;
+// Listen for changes (REAL-TIME SYNC)
+gameRef.on("value", (snapshot) => {
+    const data = snapshot.val();
 
-let blueHearts = localStorage.getItem("blueHearts")
-    ? Number(localStorage.getItem("blueHearts"))
-    : maxHearts;
+    if (!data) return;
 
-function saveGame() {
-    localStorage.setItem("purpleHearts", purpleHearts);
-    localStorage.setItem("blueHearts", blueHearts);
-}
+    purpleHearts = data.purpleHearts;
+    blueHearts = data.blueHearts;
 
+    drawHearts();
+
+    if (purpleHearts === 0 || blueHearts === 0) {
+        document.getElementById("resetBtn").style.display = "block";
+    }
+});
+
+// Draw hearts
 function drawHearts() {
     document.getElementById("purple-hearts").innerHTML =
         "❤️".repeat(purpleHearts);
@@ -22,37 +44,31 @@ function drawHearts() {
         "❤️".repeat(blueHearts);
 }
 
+// Lose heart
 function loseHeart(player) {
-    if (player === "purple" && purpleHearts > 0) {
-        purpleHearts--;
-    }
+    gameRef.transaction((game) => {
+        if (!game) {
+            return { purpleHearts: maxHearts, blueHearts: maxHearts };
+        }
 
-    if (player === "blue" && blueHearts > 0) {
-        blueHearts--;
-    }
+        if (player === "purple" && game.purpleHearts > 0) {
+            game.purpleHearts--;
+        }
 
-    saveGame();
-    drawHearts();
+        if (player === "blue" && game.blueHearts > 0) {
+            game.blueHearts--;
+        }
 
-    if (purpleHearts === 0 || blueHearts === 0) {
-        document.getElementById("resetBtn").style.display = "inline-block";
-    }
+        return game;
+    });
 }
 
+// Reset game
 function resetGame() {
-    purpleHearts = maxHearts;
-    blueHearts = maxHearts;
-
-    saveGame();
-    drawHearts();
+    gameRef.set({
+        purpleHearts: maxHearts,
+        blueHearts: maxHearts
+    });
 
     document.getElementById("resetBtn").style.display = "none";
 }
-
-// Show reset button if someone already lost
-if (purpleHearts === 0 || blueHearts === 0) {
-    document.getElementById("resetBtn").style.display = "inline-block";
-}
-
-// Draw hearts when page loads
-drawHearts();
