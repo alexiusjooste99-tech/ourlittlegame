@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Heart Score Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>Heart Score Game</h1>
+
+<div class="players">
+
+    <!-- Purple Guy -->
+    <div class="player purple">
+        <h2>Hanri_the_Ultimate</h2>
+        <div class="hearts" id="purple-hearts"></div>
+        <button onclick="loseHeart('purple')">Lose Heart</button>
+    </div>
+
+    <!-- Blue Guy -->
+    <div class="player blue">
+        <h2>Alexius_cooldude</h2>
+        <div class="hearts" id="blue-hearts"></div>
+        <button onclick="loseHeart('blue')">Lose Heart</button>
+    </div>
+
+</div>
+
+<button id="resetBtn" onclick="resetGame()">Reset Game</button>
+
+<script src="script.js"></script>
+</body>
+</html>
