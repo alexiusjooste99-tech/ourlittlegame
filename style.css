@@ -1,43 +1,60 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #111;
-    color: white;
-    text-align: center;
+const maxHearts = 3;
+
+// Load saved hearts or default to 3
+let purpleHearts = localStorage.getItem("purpleHearts")
+    ? Number(localStorage.getItem("purpleHearts"))
+    : maxHearts;
+
+let blueHearts = localStorage.getItem("blueHearts")
+    ? Number(localStorage.getItem("blueHearts"))
+    : maxHearts;
+
+function saveGame() {
+    localStorage.setItem("purpleHearts", purpleHearts);
+    localStorage.setItem("blueHearts", blueHearts);
 }
 
-.players {
-    display: flex;
-    justify-content: center;
-    gap: 50px;
-    margin-top: 40px;
+function drawHearts() {
+    document.getElementById("purple-hearts").innerHTML =
+        "❤️".repeat(purpleHearts);
+
+    document.getElementById("blue-hearts").innerHTML =
+        "❤️".repeat(blueHearts);
 }
 
-.player {
-    padding: 20px;
-    border-radius: 10px;
-    width: 200px;
+function loseHeart(player) {
+    if (player === "purple" && purpleHearts > 0) {
+        purpleHearts--;
+    }
+
+    if (player === "blue" && blueHearts > 0) {
+        blueHearts--;
+    }
+
+    saveGame();
+    drawHearts();
+
+    if (purpleHearts === 0 || blueHearts === 0) {
+        document.getElementById("resetBtn").style.display = "inline-block";
+    }
 }
 
-.purple {
-    background-color: purple;
+function resetGame() {
+    purpleHearts = maxHearts;
+    blueHearts = maxHearts;
+
+    saveGame();
+    drawHearts();
+
+    document.getElementById("resetBtn").style.display = "none";
 }
 
-.blue {
-    background-color: steelblue;
+// Show reset button if someone already lost
+if (purpleHearts === 0 || blueHearts === 0) {
+    document.getElementById("resetBtn").style.display = "inline-block";
 }
 
-.hearts {
-    font-size: 30px;
-    margin: 15px 0;
-}
+// Draw hearts when page loads
+drawHearts();
 
-button {
-    padding: 8px 12px;
-    font-size: 14px;
-    cursor: pointer;
-}
 
-#resetBtn {
-    margin-top: 30px;
-    display: none;
-}
