@@ -1,0 +1,43 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #111;
+    color: white;
+    text-align: center;
+}
+
+.players {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    margin-top: 40px;
+}
+
+.player {
+    padding: 20px;
+    border-radius: 10px;
+    width: 200px;
+}
+
+.purple {
+    background-color: purple;
+}
+
+.blue {
+    background-color: steelblue;
+}
+
+.hearts {
+    font-size: 30px;
+    margin: 15px 0;
+}
+
+button {
+    padding: 8px 12px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+#resetBtn {
+    margin-top: 30px;
+    display: none;
+}
