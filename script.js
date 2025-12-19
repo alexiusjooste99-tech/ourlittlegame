@@ -56,4 +56,3 @@ if (purpleHearts === 0 || blueHearts === 0) {
 
 // Draw hearts when page loads
 drawHearts();
-
