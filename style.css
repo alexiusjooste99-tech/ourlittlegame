@@ -4,53 +4,54 @@
 
 body {
   margin: 0;
-  padding: 20px;
+  padding: 16px;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, Arial, sans-serif;
   background: #0f0f0f;
   color: white;
   text-align: center;
 }
 
+/* Title */
 h1 {
-  font-size: 26px;
-  margin-bottom: 20px;
+  font-size: 32px;
+  margin-bottom: 24px;
 }
 
-/* Container */
+/* Layout */
 .scoreboard {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  max-width: 400px;
+  gap: 24px;
+  max-width: 420px;
   margin: 0 auto;
 }
 
-/* Player card */
+/* Player cards */
 .player {
-  background: #1e1e1e;
-  padding: 20px;
-  border-radius: 16px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  background: #1c1c1c;
+  padding: 24px;
+  border-radius: 20px;
 }
 
+/* Player name */
 .player h2 {
-  margin: 0 0 10px;
-  font-size: 22px;
+  font-size: 26px;
+  margin-bottom: 14px;
 }
 
 /* Hearts */
 .hearts {
-  font-size: 40px;
-  margin: 15px 0;
-  letter-spacing: 6px;
+  font-size: 48px;
+  margin: 20px 0;
+  letter-spacing: 8px;
 }
 
 /* Buttons */
 button {
   width: 100%;
-  padding: 16px;
-  font-size: 18px;
-  border-radius: 12px;
+  padding: 18px;
+  font-size: 20px;
+  border-radius: 16px;
   border: none;
   background: #ff3b3b;
   color: white;
@@ -58,19 +59,21 @@ button {
 }
 
 button:active {
-  transform: scale(0.97);
+  transform: scale(0.96);
 }
 
 /* Reset button */
 #resetBtn {
-  margin-top: 25px;
+  margin-top: 30px;
+  font-size: 20px;
   background: #ff9800;
   display: none;
 }
 
-/* Desktop enhancement */
-@media (min-width: 600px) {
+/* Tablet / desktop */
+@media (min-width: 700px) {
   .scoreboard {
     flex-direction: row;
+    max-width: 700px;
   }
 }
