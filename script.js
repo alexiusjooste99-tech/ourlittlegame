@@ -49,3 +49,7 @@ function resetGame() {
     player2: 3
   });
 }
+
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("sw.js");
+}
