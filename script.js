@@ -1,99 +1,51 @@
-/***********************
- * FIREBASE SETUP
- ***********************/
-
-// 🔴 PASTE YOUR OWN FIREBASE CONFIG HERE
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-    databaseURL: "https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_PROJECT_ID.appspot.com",
-    messagingSenderId: "YOUR_SENDER_ID",
-    appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyB0OVE-fDEz03BJJNKKu26QbzUiqC8_eFo",
+  authDomain: "heart-scoreboard-417a8.firebaseapp.com",
+  databaseURL: "https://heart-scoreboard-417a8-default-rtdb.firebaseio.com",
+  projectId: "heart-scoreboard-417a8",
+  storageBucket: "heart-scoreboard-417a8.firebasestorage.app",
+  messagingSenderId: "627631300388",
+  appId: "1:627631300388:web:60622c10c3bac3e0e39db1"
 };
 
-// Initialize Firebase (prevent double init on refresh)
-if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
-}
+firebase.initializeApp(firebaseConfig);
 
-// Database reference
 const database = firebase.database();
-const gameRef = database.ref("game");
+const playersRef = database.ref("players");
 
-/***********************
- * GAME STATE
- ***********************/
-const maxHearts = 3;
-let purpleHearts = maxHearts;
-let blueHearts = maxHearts;
-
-/***********************
- * INITIALIZE GAME (ONLY IF EMPTY)
- ***********************/
-gameRef.once("value").then((snapshot) => {
-    if (!snapshot.exists()) {
-        gameRef.set({
-            purpleHearts: maxHearts,
-            blueHearts: maxHearts
-        });
-    }
-});
-
-/***********************
- * REAL-TIME LISTENER
- ***********************/
-gameRef.on("value", (snapshot) => {
-    const data = snapshot.val();
-    if (!data) return;
-
-    purpleHearts = data.purpleHearts;
-    blueHearts = data.blueHearts;
-
-    drawHearts();
-
-    const resetBtn = document.getElementById("resetBtn");
-    if (purpleHearts === 0 || blueHearts === 0) {
-        resetBtn.style.display = "block";
-    } else {
-        resetBtn.style.display = "none";
-    }
-});
-
-/***********************
- * UI FUNCTIONS
- ***********************/
-function drawHearts() {
-    document.getElementById("purple-hearts").innerHTML =
-        "❤️".repeat(purpleHearts);
-
-    document.getElementById("blue-hearts").innerHTML =
-        "❤️".repeat(blueHearts);
+function updateHearts(id, lives) {
+  const el = document.getElementById(id);
+  el.innerHTML = "❤️".repeat(lives);
 }
 
-/***********************
- * GAME ACTIONS
- ***********************/
-function loseHeart(player) {
-    gameRef.transaction((game) => {
-        if (!game) return game;
-
-        if (player === "purple" && game.purpleHearts > 0) {
-            game.purpleHearts--;
-        }
-
-        if (player === "blue" && game.blueHearts > 0) {
-            game.blueHearts--;
-        }
-
-        return game;
+playersRef.once("value", snap => {
+  if (!snap.exists()) {
+    playersRef.set({
+      player1: 3,
+      player2: 3
     });
+  }
+});
+
+playersRef.on("value", snap => {
+  const data = snap.val();
+  if (!data) return;
+
+  updateHearts("p1-hearts", data.player1);
+  updateHearts("p2-hearts", data.player2);
+
+  document.getElementById("resetBtn").style.display =
+    (data.player1 === 0 || data.player2 === 0) ? "block" : "none";
+});
+
+function loseLife(player) {
+  const ref = database.ref("players/" + player);
+  ref.transaction(v => (v > 0 ? v - 1 : v));
 }
 
 function resetGame() {
-    gameRef.set({
-        purpleHearts: maxHearts,
-        blueHearts: maxHearts
-    });
+  playersRef.set({
+    player1: 3,
+    player2: 3
+  });
 }
