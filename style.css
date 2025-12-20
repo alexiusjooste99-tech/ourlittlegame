@@ -1,96 +1,44 @@
-* {
-    box-sizing: border-box;
-    -webkit-tap-highlight-color: transparent;
-}
-
 body {
-    margin: 0;
-    font-family: system-ui, Arial, sans-serif;
-    background-color: #0f0f0f;
-    color: white;
-    text-align: center;
+  font-family: Arial, sans-serif;
+  background: #111;
+  color: white;
+  text-align: center;
 }
 
-/* Title */
 h1 {
-    margin: 16px 0;
-    font-size: 2.2rem;
+  margin-bottom: 20px;
 }
 
-/* Players container */
-.players {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    padding: 16px;
+.scoreboard {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
 }
 
-/* Player card */
 .player {
-    padding: 28px 20px;
-    border-radius: 20px;
-    width: 100%;
-    max-width: 430px;
-    margin: 0 auto;
+  background: #222;
+  padding: 20px;
+  border-radius: 10px;
+  width: 200px;
 }
 
-/* Player names */
-.player h2 {
-    font-size: 1.8rem;
-    margin-bottom: 12px;
-}
-
-/* Colors */
-.purple {
-    background: linear-gradient(135deg, #7b2cbf, #5a189a);
-}
-
-.blue {
-    background: linear-gradient(135deg, #3a86ff, #023e8a);
-}
-
-/* Hearts */
 .hearts {
-    font-size: 3.5rem; /* BIG hearts */
-    margin: 20px 0;
+  font-size: 30px;
+  margin: 10px 0;
 }
 
-/* Buttons */
 button {
-    width: 100%;
-    padding: 18px;
-    font-size: 1.3rem;
-    font-weight: 600;
-    border: none;
-    border-radius: 14px;
-    cursor: pointer;
+  padding: 10px;
+  margin-top: 10px;
+  width: 100%;
+  font-size: 16px;
+  cursor: pointer;
 }
 
-/* Lose heart buttons */
-.player button {
-    background-color: rgba(255, 255, 255, 0.15);
-    color: white;
-}
-
-/* Reset button */
 #resetBtn {
-    margin: 24px auto 40px;
-    width: 95%;
-    max-width: 430px;
-    display: none;
-    background-color: #d00000;
-    color: white;
-    font-size: 1.4rem;
-}
-
-/* Desktop fallback */
-@media (min-width: 900px) {
-    .players {
-        flex-direction: row;
-        justify-content: center;
-    }
-
-    .player {
-        max-width: 350px;
-    }
+  display: none;
+  margin-top: 30px;
+  background: crimson;
+  color: white;
+  border: none;
 }
