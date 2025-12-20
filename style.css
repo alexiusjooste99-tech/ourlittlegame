@@ -16,7 +16,7 @@ h1 {
 }
 
 .player {
-  background: #222;
+  background: #121;
   padding: 20px;
   border-radius: 10px;
   width: 200px;
@@ -42,3 +42,4 @@ button {
   color: white;
   border: none;
 }
+
