@@ -1,32 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Heart Score Game</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+  <meta charset="UTF-8">
+  <title>Online Heart Scoreboard</title>
+  <link rel="stylesheet" href="style.css">
 
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 </head>
 <body>
 
-<h1>Heart Score Game</h1>
+<h1>❤️ Online Scoreboard</h1>
 
-<div class="players">
+<div class="scoreboard">
 
-    <!-- Purple Guy -->
-    <div class="player purple">
-        <h2>Hanri_the_Ultimate</h2>
-        <div class="hearts" id="purple-hearts"></div>
-        <button onclick="loseHeart('purple')">Lose Heart</button>
-    </div>
+  <div class="player">
+    <h2>Player 1</h2>
+    <div class="hearts" id="p1-hearts"></div>
+    <button onclick="loseLife('player1')">Lose Life</button>
+  </div>
 
-    <!-- Blue Guy -->
-    <div class="player blue">
-        <h2>Alexius_cooldude</h2>
-        <div class="hearts" id="blue-hearts"></div>
-        <button onclick="loseHeart('blue')">Lose Heart</button>
-    </div>
+  <div class="player">
+    <h2>Player 2</h2>
+    <div class="hearts" id="p2-hearts"></div>
+    <button onclick="loseLife('player2')">Lose Life</button>
+  </div>
 
 </div>
 
@@ -35,3 +34,4 @@
 <script src="script.js"></script>
 </body>
 </html>
+
